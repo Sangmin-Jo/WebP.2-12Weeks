@@ -10,9 +10,15 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Monofett&family=Noto+Sans+KR:wght@300;500;900&family=PT+Serif&family=Tangerine:wght@700&display=swap" rel="stylesheet">
 
+
 	<link rel="icon" href="img/favicon-16x16.png">
 	<title>New Year's Web-Print</title>
 	<style type="text/css">
+		@font-face {
+		    font-family: 'PPEditorialNew';
+		    src:url('./fonts/PPEditorialNew-Regular.otf') format('woff');
+		}
+
 		html{
 			font-family: 'Cutive Mono', monospace; font-weight: 700;
 		}
@@ -54,10 +60,10 @@
 /*캘린더*/
 	#year{position: absolute; top: 1; width: 100%; text-align: center;}
 	#calendar{width: 100%; height: 100%; display: flex;
-		flex-wrap: wrap; justify-content: space-around; align-content: flex-end; gap: 5mm
+		flex-wrap: wrap; justify-content: space-evenly; align-content: flex-end; gap: 5mm
 	}
-	.month{width:40mm; flex-direction: column; display: flex; gap: 0; flex-wrap: wrap; flex-grow: 0;}
-	.monthContent{display: flex; gap: 2pt 0pt; flex-wrap: wrap;}
+	.month{width:35mm; flex-direction: column; display: flex; gap: 0; flex-wrap: wrap; flex-grow: 0;}
+	.monthContent{display: flex; gap: 1pt 0pt; flex-wrap: wrap;}
 	.date{width: calc(14.286%) ; flex-grow: 0; flex-shrink: 0;
 		background: white; color: rgba(0, 0, 0, 1.0);
 	}
@@ -68,7 +74,7 @@
 
 	h1{font-size: 20pt; text-align: center; height: 5mm; margin: 0} /*몇년*/
 	h2{margin: 0; font-size: 12pt; text-align: center; margin-bottom: 2pt} /*몇월*/
-	h3{margin: 0; font-size: 10pt; text-align: center;} /*몇일*/
+	h3{margin: 0; font-size: 10pt; text-align: center; letter-spacing: -0.05rem} /*몇일*/
 	p{margin: 0;}
 
 /*페이지*/
@@ -246,13 +252,13 @@
 
 /*인쇄*/
 		@media print {
-			header, footer, .no-print-Active {display:none};
+			header, footer{display:none};
 			 html, body {
 				margin:0;
 				padding:0;
 			}
 		}
-
+		.bleeds{visibility: visible;}
 		@page {
 			size: A4 portrait;
 			margin: 0;
@@ -270,11 +276,51 @@
 			width: 48mm; font-size: 8pt; position: fixed; margin: 5mm; right: 0; bottom: 0;
 		}
 
+/*페이지전환 시 페이드인아웃*/
+	#fadePage{
+		background: white;
+		position: fixed; top: -5vh; left: -5vw;
+		width: 110vw; height: 110vh;
+		overflow: hidden;
+
+		z-index: 999;
+		pointer-events : none;
+		touch-action: none; }
+
+	
+	.fadeToWhite{
+		animation-name: toWhite;
+		animation-duration: 1.6s;
+		animation-timing-function: ease-in;
+		animation-fill-mode: forwards;
+	}
+
+	@keyframes toWhite{
+		0% {opacity: 0;}
+		100% {opacity: 1;}
+	}
+
+	.fadeFromWhite{
+		animation-name: fromWhite;
+		animation-duration: 1.6s;
+		animation-delay: 0.3s;
+		animation-timing-function: ease-out;
+		animation-fill-mode: forwards;
+	}
+
+	@keyframes fromWhite{
+		0% {opacity: 1;}
+		100% {opacity: 0;}
+	}
+
+
 	
 	</style>
 
 </head>
 <body>
+	<div id="fadePage" class="fadeFromWhite"></div>
+
 	<header>
 		<div id="introduce">
 			<p>금일 11월 2일. 23 계묘년이 지나가고 24 갑진년이 온다... !<br />해가 넘어갈 때에 필요한 것들이 있다.</p>
@@ -338,9 +384,9 @@
 		<div id="guideName" style="z-index: 999;"></div>
 	</div>
 	<div class="page">
-		<div class="bleedWrapper no-print">
-			<div class="bleedCorner"></div>
-			<div class="bleedCenter">
+		<div class="bleedWrapper ">
+			<div class="bleedCorner bleeds"></div>
+			<div class="bleedCenter bleeds">
 				<div class="registration-mark">
 				  <div class="circle"></div>
 				  <div class="line-horizontal"></div>
@@ -352,10 +398,10 @@
 				  <div class="line-vertical"></div>
 				</div>
 			</div>
-			<div class="bleedCorner"></div>
+			<div class="bleedCorner bleeds"></div>
 		</div>
 		<div class="bleedWrapper">
-			<div class="bleedMid no-print">
+			<div class="bleedMid bleeds">
 				<div class="registration-mark">
 				  <div class="circle"></div>
 				  <div class="line-horizontal"></div>
@@ -372,7 +418,7 @@
 		        <div id="calendar">
 		        </div>
 			</div>
-			<div class="bleedMid no-print">
+			<div class="bleedMid bleeds">
 				<div class="registration-mark">
 				  <div class="circle"></div>
 				  <div class="line-horizontal"></div>
@@ -385,9 +431,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="bleedWrapper no-print">
-			<div class="bleedCorner"></div>
-			<div class="bleedCenter">
+		<div class="bleedWrapper">
+			<div class="bleedCorner bleeds"></div>
+			<div class="bleedCenter bleeds">
 				<div class="registration-mark">
 				  <div class="circle"></div>
 				  <div class="line-horizontal"></div>
@@ -399,7 +445,7 @@
 				  <div class="line-vertical"></div>
 				</div>
 			</div>
-			<div class="bleedCorner"></div>
+			<div class="bleedCorner bleeds"></div>
 		</div>
 	</div>
 	<footer>
@@ -546,31 +592,45 @@
 		};
 
 	// 폰트 변경 버튼
-		function fontChange(){
-			const fonts = ['garamond',
-				'Comic Sans MS',
-				'Impact',
-				'Webdings',
-				'Cutive Mono',
-				'Monofett',
-				'helvetica']
-			const randomValue = Math.floor(Math.random() * fonts.length);
-			const randomFonts = fonts[randomValue];
-			let allBtn = document.querySelectorAll('button');
-			let allInput = document.querySelectorAll('input');
 
-			document.body.style.fontFamily = randomFonts;
+		const fonts = [
+			'Cutive Mono', 
+			'PPEditorialNew', 
+			'Comic Sans MS', 
+			'Impact', 
+			'Webdings', 
+			'Monofett', 
+			'helvetica', 
+			'Bookman Old Style'];
 
-			allBtn.forEach(function (element){
-				element.style.fontFamily = randomFonts;
-			});
+		let selectedFont = 0;
 
-			allInput.forEach(function (element){
-				element.style.fontFamily = randomFonts;
-			});
+		const fontChangeBtn = document.getElementById('fontChange')
+		fontChangeBtn.innerHTML = "Change Fonts (" + 1 + "/" + fonts.length + ")";
 
+	function fontChange() {
+		selectedFont++;
 
+		if (selectedFont >= fonts.length) {
+			selectedFont = 0;
 		}
+
+		fontChangeBtn.innerHTML = "Change Fonts (" + (selectedFont+1) + "/" + fonts.length + ")";
+
+		const randomFont = fonts[selectedFont];
+		document.body.style.fontFamily = randomFont;
+
+		let allBtn = document.querySelectorAll('button');
+			allBtn.forEach(function (element) {
+			element.style.fontFamily = randomFont;
+		});
+
+		let allInput = document.querySelectorAll('input');
+			allInput.forEach(function (element) {
+				element.style.fontFamily = randomFont;
+			});
+		}
+
 
 	// 색상 변경 버튼
 		function colorChange() {
@@ -869,23 +929,23 @@
 
 	// PrintPrinterMark
 		const PrintPrinterMarkBtn = document.getElementById("PrintPrinterMark");
-		const noPrint = document.querySelectorAll(".no-print");
+		const bleeds = document.querySelectorAll(".bleeds");
 
 			PrintPrinterMarkBtn.style.backgroundColor = "black";
 			PrintPrinterMarkBtn.style.color = "#dcdcdc";
 
 		PrintPrinterMarkBtn.onclick = function (){
 			if (PrintPrinterMarkBtn.style.backgroundColor === "black"){
-				noPrint.forEach(item => {
-					item.classList.add('no-print-Active')
-					item.classList.remove('no-print')
+				bleeds.forEach(item => {
+					item.style.visibility = 'hidden';
+					item.classList.remove('no-print');
 				});
 				PrintPrinterMarkBtn.style.backgroundColor = "";
 				PrintPrinterMarkBtn.style.color = "";
 			} else {
-				noPrint.forEach(item => {
-					item.classList.add('no-print')
-					item.classList.remove('no-print-Active')
+				bleeds.forEach(item => {
+					item.style.visibility = 'visible';
+					item.classList.remove('no-print');
 				});
 				PrintPrinterMarkBtn.style.backgroundColor = "black";
 				PrintPrinterMarkBtn.style.color = "#dcdcdc";
@@ -1031,7 +1091,46 @@
 			})				
 		}
 
+/*페이지전환 시 페이드인아웃*/
+	let touchTimeout;
+    resetTouchTimeout();
+	document.getElementById('fadePage').classList.remove("fadeToWhite");
+	document.getElementById('fadePage').classList.add("fadeFromWhite");
+	document.addEventListener('mousemove', TouchEventHandler);
 
+
+	function TouchEventHandler() {
+	    resetTouchTimeout();
+	}
+
+	function resetTouchTimeout() {
+	    clearTimeout(touchTimeout);
+	    touchTimeout = setTimeout(movePageSplash, 30000);
+	}
+
+	
+	function movePageSplash() {
+		sessionStorage.removeItem('scrollPosition');
+		document.getElementById('fadePage').classList.remove("fadeFromWhite");
+		document.getElementById('fadePage').classList.add("fadeToWhite");
+		setTimeout(goSplash, 2000);
+	}
+
+	function goSplash() {
+	    sessionStorage.removeItem('scrollPosition'); // 저장된 위치 제거 (선택 사항)
+		location.replace('./splash.html');
+	}
+
+// 페이지 전환 시 페이드아웃
+	function movePage(destination) {
+	    sessionStorage.setItem('scrollPosition', scrollPosition);
+
+		document.getElementById('fadePage').classList.remove("fadeFromWhite");
+		document.getElementById('fadePage').classList.add("fadeToWhite");
+		setTimeout(() => {
+		    location.href = destination;
+		}, 2000);
+	}
 
 
 </script>
